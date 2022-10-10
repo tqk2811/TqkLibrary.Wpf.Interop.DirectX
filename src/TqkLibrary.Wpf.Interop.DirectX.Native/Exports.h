@@ -1,0 +1,21 @@
+#ifndef TQKLIBRARYWPFINTEROPDIRECTXNATIVE_Exports_H
+#define TQKLIBRARYWPFINTEROPDIRECTXNATIVE_Exports_H
+
+TQKLIBRARYWPFINTEROPDIRECTXNATIVEEXPORT HRESULT InitD3D10(SurfaceQueueInterop& surfaceQueueInterop);
+TQKLIBRARYWPFINTEROPDIRECTXNATIVEEXPORT HRESULT InitD3D9(SurfaceQueueInterop& surfaceQueueInterop);
+TQKLIBRARYWPFINTEROPDIRECTXNATIVEEXPORT HRESULT InitSurfaces(SurfaceQueueInterop& surfaceQueueInterop);
+TQKLIBRARYWPFINTEROPDIRECTXNATIVEEXPORT HRESULT _IDirect3DDevice9Ex_CheckDeviceState(IDirect3DDevice9Ex* pD3D9Device);
+TQKLIBRARYWPFINTEROPDIRECTXNATIVEEXPORT HRESULT QueueHelperStart(SurfaceQueueInterop& surfaceQueueInterop, QueueHelperStruct& queueHelperStruct);
+TQKLIBRARYWPFINTEROPDIRECTXNATIVEEXPORT HRESULT QueueHelperMid(SurfaceQueueInterop& surfaceQueueInterop, QueueHelperStruct& queueHelperStruct);
+TQKLIBRARYWPFINTEROPDIRECTXNATIVEEXPORT HRESULT QueueHelperEnd(SurfaceQueueInterop& surfaceQueueInterop, QueueHelperStruct& queueHelperStruct);
+TQKLIBRARYWPFINTEROPDIRECTXNATIVEEXPORT void QueueHelperRelease(QueueHelperStruct& queueHelperStruct);
+
+TQKLIBRARYWPFINTEROPDIRECTXNATIVEEXPORT IUnknown* ReleaseInterface(IUnknown* pointer);
+
+
+
+
+
+
+
+#endif // !Exports

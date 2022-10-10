@@ -1,0 +1,50 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFrameworks>net6.0-windows7.0</TargetFrameworks>
+		<LangVersion>10.0</LangVersion>
+		<UseWPF>true</UseWPF>
+		<PathMap>$(MSBuildProjectDirectory)=$(MSBuildProjectName)</PathMap>
+		<!--<RootNamespace>Microsoft.Samples.Wpf.D3D11Interop</RootNamespace>
+		<AssemblyName>WpfD3D11Interop</AssemblyName>-->
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\..\src\TqkLibrary.Wpf.Interop.DirectX\TqkLibrary.Wpf.Interop.DirectX.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Resource Include="Images\Background.jpg" />
+	  <Resource Include="Images\Checkbox_checked.png" />
+	  <Resource Include="Images\Checkbox_unchecked.png" />
+	  <Resource Include="Images\MagnifyingGlass.PNG" />
+	  <Resource Include="Images\radiobutton_off.png" />
+	  <Resource Include="Images\radiobutton_on.png" />
+	  <Resource Include="Images\Slider.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="x64\" />
+	  <Folder Include="x86\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="..\D3D11Visualization\D3DVisualization.fx" Link="D3DVisualization.fx">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Include="..\Win32\Debug\D3DVisualization.dll" Link="x86\D3DVisualization.dll">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Include="..\Win32\Debug\D3DVisualization.pdb" Link="x86\D3DVisualization.pdb">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Include="..\x64\Debug\D3DVisualization.dll" Link="x64\D3DVisualization.dll">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Include="..\x64\Debug\D3DVisualization.pdb" Link="x64\D3DVisualization.pdb">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+
+</Project>

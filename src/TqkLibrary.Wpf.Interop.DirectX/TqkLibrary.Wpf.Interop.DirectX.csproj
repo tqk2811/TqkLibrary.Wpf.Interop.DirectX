@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net462;net6.0-windows7.0</TargetFrameworks>
+		<UseWPF>true</UseWPF>
+		<LangVersion>10.0</LangVersion>
+		<PreserveCompilationContext>false</PreserveCompilationContext>
+		<GenerateDependencyFile>false</GenerateDependencyFile>
+		<ProduceReferenceAssembly>false</ProduceReferenceAssembly>
+		<!--<GenerateDocumentationFile>True</GenerateDocumentationFile>-->
+		<PathMap>$(MSBuildProjectDirectory)=$(MSBuildProjectName)</PathMap>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Folder Include="x86\" />
+		<Folder Include="x64\" />
+	</ItemGroup>
+
+	<ItemGroup Condition="$(Configuration) == 'Debug'">
+		<None Include="..\Win32\Debug\TqkLibrary.Wpf.Interop.DirectX.Native.dll" Link="x86\TqkLibrary.Wpf.Interop.DirectX.Native.dll">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="..\Win32\Debug\TqkLibrary.Wpf.Interop.DirectX.Native.pdb" Link="x86\TqkLibrary.Wpf.Interop.DirectX.Native.pdb">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="..\x64\Debug\TqkLibrary.Wpf.Interop.DirectX.Native.dll" Link="x64\TqkLibrary.Wpf.Interop.DirectX.Native.dll">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="..\x64\Debug\TqkLibrary.Wpf.Interop.DirectX.Native.pdb" Link="x64\TqkLibrary.Wpf.Interop.DirectX.Native.pdb">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+</Project>

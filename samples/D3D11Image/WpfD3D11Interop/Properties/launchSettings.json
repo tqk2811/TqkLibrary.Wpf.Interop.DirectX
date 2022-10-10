@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "WpfD3D11Interop": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

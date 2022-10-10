@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32901.215
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TqkLibrary.Wpf.Interop.DirectX", "TqkLibrary.Wpf.Interop.DirectX\TqkLibrary.Wpf.Interop.DirectX.csproj", "{94F140F4-EB51-423D-84C6-F21E2CADDBA3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A703A97D-D4B6-47F4-9F12-7C3603F95F12} = {A703A97D-D4B6-47F4-9F12-7C3603F95F12}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TqkLibrary.Wpf.Interop.DirectX.Native", "TqkLibrary.Wpf.Interop.DirectX.Native\TqkLibrary.Wpf.Interop.DirectX.Native.vcxproj", "{A703A97D-D4B6-47F4-9F12-7C3603F95F12}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{94F140F4-EB51-423D-84C6-F21E2CADDBA3}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{94F140F4-EB51-423D-84C6-F21E2CADDBA3}.Debug|x64.Build.0 = Debug|Any CPU
+		{94F140F4-EB51-423D-84C6-F21E2CADDBA3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{94F140F4-EB51-423D-84C6-F21E2CADDBA3}.Debug|x86.Build.0 = Debug|Any CPU
+		{94F140F4-EB51-423D-84C6-F21E2CADDBA3}.Release|x64.ActiveCfg = Release|Any CPU
+		{94F140F4-EB51-423D-84C6-F21E2CADDBA3}.Release|x64.Build.0 = Release|Any CPU
+		{94F140F4-EB51-423D-84C6-F21E2CADDBA3}.Release|x86.ActiveCfg = Release|Any CPU
+		{94F140F4-EB51-423D-84C6-F21E2CADDBA3}.Release|x86.Build.0 = Release|Any CPU
+		{A703A97D-D4B6-47F4-9F12-7C3603F95F12}.Debug|x64.ActiveCfg = Debug|x64
+		{A703A97D-D4B6-47F4-9F12-7C3603F95F12}.Debug|x64.Build.0 = Debug|x64
+		{A703A97D-D4B6-47F4-9F12-7C3603F95F12}.Debug|x86.ActiveCfg = Debug|Win32
+		{A703A97D-D4B6-47F4-9F12-7C3603F95F12}.Debug|x86.Build.0 = Debug|Win32
+		{A703A97D-D4B6-47F4-9F12-7C3603F95F12}.Release|x64.ActiveCfg = Release|x64
+		{A703A97D-D4B6-47F4-9F12-7C3603F95F12}.Release|x64.Build.0 = Release|x64
+		{A703A97D-D4B6-47F4-9F12-7C3603F95F12}.Release|x86.ActiveCfg = Release|Win32
+		{A703A97D-D4B6-47F4-9F12-7C3603F95F12}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B06B8F19-7DC0-4043-8F12-26DAC4FFD4D7}
+	EndGlobalSection
+EndGlobal
