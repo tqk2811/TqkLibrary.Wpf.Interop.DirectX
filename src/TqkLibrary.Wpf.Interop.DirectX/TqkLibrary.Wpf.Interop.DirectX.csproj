@@ -11,12 +11,10 @@
 		<PathMap>$(MSBuildProjectDirectory)=$(MSBuildProjectName)</PathMap>
 	</PropertyGroup>
 
-	<ItemGroup>
+	<ItemGroup Condition="$(Configuration) == 'Debug'">
 		<Folder Include="x86\" />
 		<Folder Include="x64\" />
-	</ItemGroup>
-
-	<ItemGroup>
+		
 		<None Include="..\Win32\$(Configuration)\TqkLibrary.Wpf.Interop.DirectX.Native.dll" Link="x86\TqkLibrary.Wpf.Interop.DirectX.Native.dll">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
@@ -30,5 +28,5 @@
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
-
+	
 </Project>

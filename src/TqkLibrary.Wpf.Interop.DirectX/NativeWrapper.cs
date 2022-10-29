@@ -11,6 +11,7 @@ namespace TqkLibrary.Wpf.Interop.DirectX
 {
     internal static class NativeWrapper
     {
+#if DEBUG
         static NativeWrapper()
         {
             string path = Path.Combine(
@@ -24,7 +25,7 @@ namespace TqkLibrary.Wpf.Interop.DirectX
 
         [DllImport("Kernel32.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
         internal static extern bool SetDllDirectory(string PathName);
-
+#endif
 
 
         [DllImport("TqkLibrary.Wpf.Interop.DirectX.Native.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]

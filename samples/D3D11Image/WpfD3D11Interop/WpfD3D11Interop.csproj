@@ -6,6 +6,7 @@
 		<LangVersion>10.0</LangVersion>
 		<UseWPF>true</UseWPF>
 		<PathMap>$(MSBuildProjectDirectory)=$(MSBuildProjectName)</PathMap>
+		<Platforms>AnyCPU;x64;x86</Platforms>
 		<!--<RootNamespace>Microsoft.Samples.Wpf.D3D11Interop</RootNamespace>
 		<AssemblyName>WpfD3D11Interop</AssemblyName>-->
 	</PropertyGroup>

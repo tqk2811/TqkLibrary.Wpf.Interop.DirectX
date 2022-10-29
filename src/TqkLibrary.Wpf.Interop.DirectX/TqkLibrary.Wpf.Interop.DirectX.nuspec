@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+	<!--https://docs.microsoft.com/en-us/nuget/reference/nuspec-->
+	<metadata>
+		<id>$id$</id>
+		<version>1.0.0</version>
+		<description>P/Invoke version of Microsoft.Wpf.Interop.DirectX</description>
+		<authors>tqk2811</authors>
+		<readme>docs\README.MD</readme>
+		<projectUrl>https://github.com/tqk2811/TqkLibrary.Wpf.Interop.DirectX</projectUrl>
+		<repository type="git" url="https://github.com/tqk2811/TqkLibrary.Wpf.Interop.DirectX"/>
+		<license type="expression">MIT</license>
+		<dependencies>
+			<group targetFramework="net462">
+			</group>
+			<group targetFramework="net5.0-windows7.0">
+			</group>
+			<group targetFramework="net6.0-windows7.0">
+			</group>
+		</dependencies>
+	</metadata>
+
+	<files>
+		<file src="..\..\README.MD" target="docs\" />
+		<file src="..\x64\Release\TqkLibrary.Wpf.Interop.DirectX.Native.dll" target="runtimes\win-x64\native\" />
+		<file src="..\Win32\Release\TqkLibrary.Wpf.Interop.DirectX.Native.dll" target="runtimes\win-x86\native\" />
+		<file src="bin\Release\**\$id$.dll" target="lib\" />
+		<file src="bin\Release\**\$id$.pdb" target="lib\" />
+		<file src="bin\Release\**\$id$.xml" target="lib\" />
+	</files>
+</package>

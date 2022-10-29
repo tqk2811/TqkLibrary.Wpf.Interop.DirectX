@@ -288,6 +288,7 @@
 
         private static class NativeMethods
         {
+#if DEBUG
             static NativeMethods()
             {
                 string path = Path.Combine(
@@ -301,6 +302,7 @@
 
             [DllImport("Kernel32.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
             internal static extern bool SetDllDirectory(string PathName);
+#endif
 
             /// <summary>
             /// Variable used to track whether the missing dependency dialog has been displayed,
