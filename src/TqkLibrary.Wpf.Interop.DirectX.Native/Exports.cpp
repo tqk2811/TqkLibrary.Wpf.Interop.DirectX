@@ -151,7 +151,7 @@ HRESULT _IDirect3DDevice9Ex_CheckDeviceState(IDirect3DDevice9Ex* pD3D9Device)
 	return pD3D9Device->CheckDeviceState(NULL);
 }
 
-HRESULT QueueHelperStart(SurfaceQueueInterop& surfaceQueueInterop, QueueHelperStruct& queueHelperStruct)
+HRESULT QueueHelper_GetDXGISurface(SurfaceQueueInterop& surfaceQueueInterop, QueueHelperStruct& queueHelperStruct)
 {
 	HRESULT hr = S_OK;
 	UINT size = sizeof(int);
@@ -170,7 +170,7 @@ HRESULT QueueHelperStart(SurfaceQueueInterop& surfaceQueueInterop, QueueHelperSt
 	return hr;
 }
 
-HRESULT QueueHelperMid(SurfaceQueueInterop& surfaceQueueInterop, QueueHelperStruct& queueHelperStruct)
+HRESULT QueueHelper_GetSurface9(SurfaceQueueInterop& surfaceQueueInterop, QueueHelperStruct& queueHelperStruct)
 {
 	HRESULT hr = S_OK;
 
@@ -185,6 +185,7 @@ HRESULT QueueHelperMid(SurfaceQueueInterop& surfaceQueueInterop, QueueHelperStru
 	// Dequeue from BA queue
 	hr = surfaceQueueInterop.m_BAConsumer->Dequeue(surfaceID9, &queueHelperStruct.pUnkTexture9, NULL, NULL, INFINITE);
 	if (FAILED(hr)) return hr;
+
 	hr = queueHelperStruct.pUnkTexture9->QueryInterface(surfaceID9, (void**)&queueHelperStruct.pTexture9);
 	if (FAILED(hr)) return hr;
 
@@ -193,7 +194,7 @@ HRESULT QueueHelperMid(SurfaceQueueInterop& surfaceQueueInterop, QueueHelperStru
 
 	return hr;
 }
-HRESULT QueueHelperEnd(SurfaceQueueInterop& surfaceQueueInterop, QueueHelperStruct& queueHelperStruct)
+HRESULT QueueHelper_ABProducerEnqueueTexture9(SurfaceQueueInterop& surfaceQueueInterop, QueueHelperStruct& queueHelperStruct)
 {
 	HRESULT hr = S_OK;
 	// Produce Surface
@@ -205,7 +206,7 @@ HRESULT QueueHelperEnd(SurfaceQueueInterop& surfaceQueueInterop, QueueHelperStru
 
 	return hr;
 }
-void QueueHelperRelease(QueueHelperStruct& queueHelperStruct)
+void QueueHelper_Release(QueueHelperStruct& queueHelperStruct)
 {
 	_ReleaseInterface(queueHelperStruct.pSurface9);
 

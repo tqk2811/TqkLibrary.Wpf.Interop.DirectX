@@ -208,7 +208,7 @@ namespace TqkLibrary.Wpf.Interop.DirectX
                 QueueHelperStruct queueHelperStruct = new QueueHelperStruct();
                 try
                 {
-                    int hr = NativeWrapper.QueueHelperStart(ref m_native, ref queueHelperStruct);
+                    int hr = NativeWrapper.QueueHelper_GetDXGISurface(ref m_native, ref queueHelperStruct);
                     if (hr < 0) return;
 
                     if (renderMode == QueueRenderMode.RenderDXGI)
@@ -223,19 +223,19 @@ namespace TqkLibrary.Wpf.Interop.DirectX
                         }
                     }
 
-                    hr = NativeWrapper.QueueHelperMid(ref m_native, ref queueHelperStruct);
+                    hr = NativeWrapper.QueueHelper_GetSurface9(ref m_native, ref queueHelperStruct);
                     if (hr < 0) return;
 
                     m_d3dImage.SetBackBuffer(D3DResourceType.IDirect3DSurface9, queueHelperStruct.pSurface9);
 
-                    hr = NativeWrapper.QueueHelperEnd(ref m_native, ref queueHelperStruct);
+                    hr = NativeWrapper.QueueHelper_ABProducerEnqueueTexture9(ref m_native, ref queueHelperStruct);
                     if (hr < 0) return;
                 }
                 finally
                 {
+                    NativeWrapper.QueueHelper_Release(ref queueHelperStruct);
                     m_d3dImage.AddDirtyRect(new Int32Rect(0, 0, m_d3dImage.PixelWidth, m_d3dImage.PixelHeight));
                     m_d3dImage.Unlock();
-                    NativeWrapper.QueueHelperRelease(ref queueHelperStruct);
                 }
             }
         }
