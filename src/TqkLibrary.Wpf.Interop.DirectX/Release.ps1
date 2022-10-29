@@ -70,7 +70,7 @@ if($result)
         Write-Host "enter to confirm"
         pause
 
-        # NugetPush $projectName
+        NugetPush $projectName
     }
 }
 else

@@ -6,7 +6,7 @@
 		<version>1.0.0</version>
 		<description>P/Invoke version of Microsoft.Wpf.Interop.DirectX</description>
 		<authors>tqk2811</authors>
-		<readme>docs\README.MD</readme>
+		<readme>docs\README.md</readme>
 		<projectUrl>https://github.com/tqk2811/TqkLibrary.Wpf.Interop.DirectX</projectUrl>
 		<repository type="git" url="https://github.com/tqk2811/TqkLibrary.Wpf.Interop.DirectX"/>
 		<license type="expression">MIT</license>
@@ -21,7 +21,7 @@
 	</metadata>
 
 	<files>
-		<file src="..\..\README.MD" target="docs\" />
+		<file src="..\..\README.md" target="docs\" />
 		<file src="..\x64\Release\TqkLibrary.Wpf.Interop.DirectX.Native.dll" target="runtimes\win-x64\native\" />
 		<file src="..\Win32\Release\TqkLibrary.Wpf.Interop.DirectX.Native.dll" target="runtimes\win-x86\native\" />
 		<file src="bin\Release\**\$id$.dll" target="lib\" />
