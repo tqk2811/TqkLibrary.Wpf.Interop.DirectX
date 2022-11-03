@@ -65,7 +65,7 @@ namespace TqkLibrary.Wpf.Interop.DirectX
             this.EnsureHelper();
 
             // Don't bother with a call if there's no callback registered.
-            this.Helper?.RequestRenderD2D();
+            this.Helper.RequestRenderD2D();
         }
         public void SetPixelSize(int pixelWidth, int pixelHeight)
         {

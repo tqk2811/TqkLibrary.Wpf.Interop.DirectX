@@ -15,17 +15,17 @@
 		<Folder Include="x86\" />
 		<Folder Include="x64\" />
 		
-		<None Include="..\Win32\$(Configuration)\TqkLibrary.Wpf.Interop.DirectX.Native.dll" Link="x86\TqkLibrary.Wpf.Interop.DirectX.Native.dll">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		<None Include="$(SolutionDir)Win32\$(Configuration)\TqkLibrary.Wpf.Interop.DirectX.Native.dll" Link="x86\TqkLibrary.Wpf.Interop.DirectX.Native.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Include="..\Win32\$(Configuration)\TqkLibrary.Wpf.Interop.DirectX.Native.pdb" Link="x86\TqkLibrary.Wpf.Interop.DirectX.Native.pdb">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		<None Include="$(SolutionDir)Win32\$(Configuration)\TqkLibrary.Wpf.Interop.DirectX.Native.pdb" Link="x86\TqkLibrary.Wpf.Interop.DirectX.Native.pdb">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Include="..\x64\$(Configuration)\TqkLibrary.Wpf.Interop.DirectX.Native.dll" Link="x64\TqkLibrary.Wpf.Interop.DirectX.Native.dll">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		<None Include="$(SolutionDir)x64\$(Configuration)\TqkLibrary.Wpf.Interop.DirectX.Native.dll" Link="x64\TqkLibrary.Wpf.Interop.DirectX.Native.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Include="..\x64\$(Configuration)\TqkLibrary.Wpf.Interop.DirectX.Native.pdb" Link="x64\TqkLibrary.Wpf.Interop.DirectX.Native.pdb">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		<None Include="$(SolutionDir)x64\$(Configuration)\TqkLibrary.Wpf.Interop.DirectX.Native.pdb" Link="x64\TqkLibrary.Wpf.Interop.DirectX.Native.pdb">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
 	

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
 
@@ -13,6 +9,8 @@ namespace TqkLibrary.Wpf.Interop.DirectX
         SurfaceQueueInterop m_native = new SurfaceQueueInterop();
         Action<IntPtr, bool> m_renderD2D;
         D3DImage m_d3dImage;
+        //DependencyPropertyChangedEventHandler m_frontBufferAvailableChanged;
+
 
         public Action<IntPtr, bool> RenderD2D
         {
@@ -80,29 +78,13 @@ namespace TqkLibrary.Wpf.Interop.DirectX
             QueueHelper(QueueRenderMode.RenderDXGI);
         }
 
+        bool FAILED(int hr) => hr < 0;
 
-
-        int /*HRESULT*/ InitD3D10()
-        {
-            return NativeWrapper.InitD3D10(ref m_native);
-        }
-
-        void RenderToDXGI(IntPtr pdxgiSurface, bool isNewSurface)
-        {
-            if (m_renderD2D is not null)
-            {
-                m_renderD2D(pdxgiSurface, isNewSurface);
-            }
-        }
+        void RenderToDXGI(IntPtr pdxgiSurface, bool isNewSurface) => m_renderD2D?.Invoke(pdxgiSurface, isNewSurface);
 
         void CleanupD3D10()
         {
             m_native.m_D3D10Device = NativeWrapper.ReleaseInterface(m_native.m_D3D10Device);
-        }
-
-        int /*HRESULT*/ InitD3D9()
-        {
-            return NativeWrapper.InitD3D9(ref m_native);
         }
 
         void CleanupD3D9()
@@ -140,24 +122,29 @@ namespace TqkLibrary.Wpf.Interop.DirectX
         int /*HRESULT*/ InitD3D()
         {
             int hr = 0;
-            if (m_native.m_isD3DInitialized)
+            if (!m_native.m_isD3DInitialized)
             {
-                hr = InitD3D9();
-                if (hr >= 0) hr = InitD3D10();
-                if (hr < 0)
-                {
-                    CleanupD3D();
-                    m_native.m_isD3DInitialized = false;
-                }
+                hr = NativeWrapper.InitD3D9(ref m_native);
+                if (FAILED(hr))
+                    goto Cleanup;
+
+                hr = NativeWrapper.InitD3D10(ref m_native);
+                if (FAILED(hr))
+                    goto Cleanup;
+
+                m_native.m_isD3DInitialized = true;
+            }
+
+        Cleanup:
+            // Clean up, but don't throw, as this can be a transient failure.
+            // TODO: Consider if/how to differentiate between fatal failure and transient failure.
+            if (FAILED(hr))
+            {
+                CleanupD3D();
             }
             return hr;
         }
 
-
-        int /*HRESULT*/ InitSurfaces()
-        {
-            return NativeWrapper.InitSurfaces(ref m_native);
-        }
         const int S_OK = 0;
         const int D3D_OK = S_OK;
         const int E_FAIL = unchecked((int)0x80004005);
@@ -175,20 +162,25 @@ namespace TqkLibrary.Wpf.Interop.DirectX
                 }
             }
 
-            if (hr >= 0 && !m_native.m_isD3DInitialized)
+            if (!m_native.m_isD3DInitialized)
             {
                 hr = InitD3D();
+                if (FAILED(hr))
+                    goto Cleanup;
             }
 
-            if (hr >= 0 && !m_native.m_areSurfacesInitialized)
+            if (!m_native.m_areSurfacesInitialized)
             {
                 // Can be S_FALSE if there's nothing to do.
-                hr = InitSurfaces();
+                hr = NativeWrapper.InitSurfaces(ref m_native);
+                if (FAILED(hr))
+                    goto Cleanup;
             }
 
+        Cleanup:
             // Clean up, but don't throw, as this can be a transient failure.
             // TODO: Consider if/how to differentiate between fatal failure and transient failure.
-            if (hr < 0)
+            if (FAILED(hr))
             {
                 CleanupD3D();
             }
@@ -198,45 +190,48 @@ namespace TqkLibrary.Wpf.Interop.DirectX
         // If fShouldRenderD3D10 is true, this method performs the callout to RenderD3D10.
         // In any case, this method always initializes m_d3dImage which incurrs no cost if this results in no change.
 
+        bool isSkipSetSurface = false;
         void QueueHelper(QueueRenderMode renderMode)
         {
-            if (!m_native.m_shouldSkipRender && m_d3dImage is not null && Initialize())
+            if (m_native.m_shouldSkipRender || m_d3dImage is null || !Initialize())
+                return;
+
+            
+            bool isNewSurface = !m_native.m_areSurfacesInitialized;
+            QueueHelperStruct queueHelperStruct = new QueueHelperStruct();
+            try
             {
-                bool isNewSurface = !m_native.m_areSurfacesInitialized;
                 m_d3dImage.Lock();
+                int hr = NativeWrapper.QueueHelper_GetDXGISurface(ref m_native, ref queueHelperStruct);
+                if (FAILED(hr))
+                    return;
 
-                QueueHelperStruct queueHelperStruct = new QueueHelperStruct();
-                try
+                if (renderMode == QueueRenderMode.RenderDXGI)
                 {
-                    int hr = NativeWrapper.QueueHelper_GetDXGISurface(ref m_native, ref queueHelperStruct);
-                    if (hr < 0) return;
-
-                    if (renderMode == QueueRenderMode.RenderDXGI)
+                    try
                     {
-                        try
-                        {
-                            RenderToDXGI(queueHelperStruct.pDXGISurface, isNewSurface);
-                        }
-                        catch (Exception)
-                        {
-                            //IFC(E_FAIL);
-                        }
+                        RenderToDXGI(queueHelperStruct.pDXGISurface, isNewSurface);
                     }
-
-                    hr = NativeWrapper.QueueHelper_GetSurface9(ref m_native, ref queueHelperStruct);
-                    if (hr < 0) return;
-
-                    m_d3dImage.SetBackBuffer(D3DResourceType.IDirect3DSurface9, queueHelperStruct.pSurface9);
-
-                    hr = NativeWrapper.QueueHelper_ABProducerEnqueueTexture9(ref m_native, ref queueHelperStruct);
-                    if (hr < 0) return;
+                    catch (Exception)
+                    {
+                        hr = E_FAIL;
+                        return;
+                    }
                 }
-                finally
-                {
-                    NativeWrapper.QueueHelper_Release(ref queueHelperStruct);
-                    m_d3dImage.AddDirtyRect(new Int32Rect(0, 0, m_d3dImage.PixelWidth, m_d3dImage.PixelHeight));
-                    m_d3dImage.Unlock();
-                }
+
+                hr = NativeWrapper.QueueHelper_GetSurface9(ref m_native, ref queueHelperStruct);
+                if (FAILED(hr))
+                    return;
+
+                m_d3dImage.SetBackBuffer(D3DResourceType.IDirect3DSurface9, queueHelperStruct.pSurface9, true);
+
+                NativeWrapper.QueueHelper_ABProducerEnqueueTexture9(ref m_native, ref queueHelperStruct);
+            }
+            finally
+            {
+                try { m_d3dImage.AddDirtyRect(new Int32Rect(0, 0, m_d3dImage.PixelWidth, m_d3dImage.PixelHeight)); } catch { }
+                m_d3dImage.Unlock();
+                NativeWrapper.QueueHelper_Release(ref queueHelperStruct);
             }
         }
     }
