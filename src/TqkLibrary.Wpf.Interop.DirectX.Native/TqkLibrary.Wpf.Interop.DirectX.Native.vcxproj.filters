@@ -13,18 +13,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="SurfaceQueue">
+      <UniqueIdentifier>{daa05a70-d248-4702-a821-f9b1690a0bbe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SurfaceQueue\Source Files">
+      <UniqueIdentifier>{79efb425-37f2-4886-bec7-9059b73205a7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="pch.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Exports.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SurfaceQueue.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SurfaceQueueImpl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SurfaceQueueInterop.h">
@@ -33,33 +30,33 @@
     <ClInclude Include="QueueHelperStruct.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SurfaceQueue.h">
+      <Filter>SurfaceQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="SurfaceQueueImpl.h">
+      <Filter>SurfaceQueue</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="dllmain.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="pch.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Exports.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SurfaceQueue.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SurfaceDevice9.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>SurfaceQueue\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SurfaceDevice10.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>SurfaceQueue\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SurfaceDevice11.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>SurfaceQueue\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SurfaceQueue.cpp">
+      <Filter>SurfaceQueue\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="SurfaceQueue.inl">
-      <Filter>Source Files</Filter>
+      <Filter>SurfaceQueue\Source Files</Filter>
     </None>
   </ItemGroup>
 </Project>
