@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Interop;
 
@@ -190,18 +191,17 @@ namespace TqkLibrary.Wpf.Interop.DirectX
         // If fShouldRenderD3D10 is true, this method performs the callout to RenderD3D10.
         // In any case, this method always initializes m_d3dImage which incurrs no cost if this results in no change.
 
-        bool isSkipSetSurface = false;
         void QueueHelper(QueueRenderMode renderMode)
         {
+            bool isNewSurface = !m_native.m_areSurfacesInitialized;
+
             if (m_native.m_shouldSkipRender || m_d3dImage is null || !Initialize())
                 return;
 
-            
-            bool isNewSurface = !m_native.m_areSurfacesInitialized;
             QueueHelperStruct queueHelperStruct = new QueueHelperStruct();
+            m_d3dImage.Lock();
             try
             {
-                m_d3dImage.Lock();
                 int hr = NativeWrapper.QueueHelper_GetDXGISurface(ref m_native, ref queueHelperStruct);
                 if (FAILED(hr))
                     return;
@@ -212,8 +212,11 @@ namespace TqkLibrary.Wpf.Interop.DirectX
                     {
                         RenderToDXGI(queueHelperStruct.pDXGISurface, isNewSurface);
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+#if DEBUG
+                        Debug.WriteLine($"{ex.GetType().FullName}: {ex.Message}, {ex.StackTrace}");
+#endif
                         hr = E_FAIL;
                         return;
                     }
