@@ -34,16 +34,16 @@
 	  <None Include="..\D3D11Visualization\D3DVisualization.fx" Link="D3DVisualization.fx">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Include="..\Win32\Debug\D3DVisualization.dll" Link="x86\D3DVisualization.dll">
+	  <None Include="..\Win32\$(Configuration)\D3DVisualization.dll" Link="x86\D3DVisualization.dll">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Include="..\Win32\Debug\D3DVisualization.pdb" Link="x86\D3DVisualization.pdb">
+	  <None Include="..\Win32\$(Configuration)\D3DVisualization.pdb" Link="x86\D3DVisualization.pdb">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Include="..\x64\Debug\D3DVisualization.dll" Link="x64\D3DVisualization.dll">
+	  <None Include="..\x64\$(Configuration)\D3DVisualization.dll" Link="x64\D3DVisualization.dll">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Include="..\x64\Debug\D3DVisualization.pdb" Link="x64\D3DVisualization.pdb">
+	  <None Include="..\x64\$(Configuration)\D3DVisualization.pdb" Link="x64\D3DVisualization.pdb">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
 	</ItemGroup>
