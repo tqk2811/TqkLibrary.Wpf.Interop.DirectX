@@ -3,7 +3,7 @@
 	<!--https://docs.microsoft.com/en-us/nuget/reference/nuspec-->
 	<metadata>
 		<id>$id$</id>
-		<version>1.0.0</version>
+		<version>1.0.0-pre1</version>
 		<description>P/Invoke version of Microsoft.Wpf.Interop.DirectX</description>
 		<authors>tqk2811</authors>
 		<readme>docs\README.md</readme>
