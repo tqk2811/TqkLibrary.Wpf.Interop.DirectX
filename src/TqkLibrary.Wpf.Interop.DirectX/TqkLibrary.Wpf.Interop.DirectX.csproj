@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net462;net5.0-windows7.0;net6.0-windows7.0</TargetFrameworks>
+		<TargetFrameworks>net462;net5.0-windows7.0;net6.0-windows7.0;net7.0-windows7.0</TargetFrameworks>
 		<UseWPF>true</UseWPF>
 		<LangVersion>10.0</LangVersion>
 		<PreserveCompilationContext>false</PreserveCompilationContext>
@@ -9,22 +9,14 @@
 		<ProduceReferenceAssembly>false</ProduceReferenceAssembly>
 		<!--<GenerateDocumentationFile>True</GenerateDocumentationFile>-->
 		<PathMap>$(MSBuildProjectDirectory)=$(MSBuildProjectName)</PathMap>
+		<Platforms>AnyCPU;x64;x86</Platforms>
 	</PropertyGroup>
-
-	<ItemGroup Condition="$(Configuration) == 'Debug'">
-		<Folder Include="x86\" />
-		<Folder Include="x64\" />
-		
-		<None Include="$(SolutionDir)Win32\$(Configuration)\TqkLibrary.Wpf.Interop.DirectX.Native.dll" Link="x86\TqkLibrary.Wpf.Interop.DirectX.Native.dll">
+	
+	<ItemGroup Condition="$(Configuration) == 'Debug'">		
+		<None Include="$(SolutionDir)$(Platform)\$(Configuration)\TqkLibrary.Wpf.Interop.DirectX.Native.dll" Link="$(Platform)\TqkLibrary.Wpf.Interop.DirectX.Native.dll">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Include="$(SolutionDir)Win32\$(Configuration)\TqkLibrary.Wpf.Interop.DirectX.Native.pdb" Link="x86\TqkLibrary.Wpf.Interop.DirectX.Native.pdb">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Include="$(SolutionDir)x64\$(Configuration)\TqkLibrary.Wpf.Interop.DirectX.Native.dll" Link="x64\TqkLibrary.Wpf.Interop.DirectX.Native.dll">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Include="$(SolutionDir)x64\$(Configuration)\TqkLibrary.Wpf.Interop.DirectX.Native.pdb" Link="x64\TqkLibrary.Wpf.Interop.DirectX.Native.pdb">
+		<None Include="$(SolutionDir)$(Platform)\$(Configuration)\TqkLibrary.Wpf.Interop.DirectX.Native.pdb" Link="$(Platform)\TqkLibrary.Wpf.Interop.DirectX.Native.pdb">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>

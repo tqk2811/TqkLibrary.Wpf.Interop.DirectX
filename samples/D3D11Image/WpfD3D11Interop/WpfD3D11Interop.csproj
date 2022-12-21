@@ -6,7 +6,7 @@
 		<LangVersion>10.0</LangVersion>
 		<UseWPF>true</UseWPF>
 		<PathMap>$(MSBuildProjectDirectory)=$(MSBuildProjectName)</PathMap>
-		<Platforms>AnyCPU;x64;x86</Platforms>
+		<Platforms>x64;x86</Platforms>
 		<!--<RootNamespace>Microsoft.Samples.Wpf.D3D11Interop</RootNamespace>
 		<AssemblyName>WpfD3D11Interop</AssemblyName>-->
 	</PropertyGroup>
@@ -26,24 +26,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="x64\" />
-	  <Folder Include="x86\" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <None Include="..\D3D11Visualization\D3DVisualization.fx" Link="D3DVisualization.fx">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Include="..\Win32\$(Configuration)\D3DVisualization.dll" Link="x86\D3DVisualization.dll">
+	  <None Include="$(SolutionDir)$(Platform)\$(Configuration)\D3DVisualization.dll" Link="$(Platform)\D3DVisualization.dll">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Include="..\Win32\$(Configuration)\D3DVisualization.pdb" Link="x86\D3DVisualization.pdb">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Include="..\x64\$(Configuration)\D3DVisualization.dll" Link="x64\D3DVisualization.dll">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Include="..\x64\$(Configuration)\D3DVisualization.pdb" Link="x64\D3DVisualization.pdb">
+	  <None Include="$(SolutionDir)$(Platform)\$(Configuration)\D3DVisualization.pdb" Link="$(Platform)\D3DVisualization.pdb">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
 	</ItemGroup>

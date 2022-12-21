@@ -10,6 +10,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TqkLibrary.Wpf.Interop.Dire
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TqkLibrary.Wpf.Interop.DirectX.Native", "TqkLibrary.Wpf.Interop.DirectX.Native\TqkLibrary.Wpf.Interop.DirectX.Native.vcxproj", "{A703A97D-D4B6-47F4-9F12-7C3603F95F12}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{40F0FF8B-6E43-4051-A5D1-B661CE1076D1}"
+	ProjectSection(SolutionItems) = preProject
+		Build.ps1 = Build.ps1
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -18,10 +23,10 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{94F140F4-EB51-423D-84C6-F21E2CADDBA3}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{94F140F4-EB51-423D-84C6-F21E2CADDBA3}.Debug|x64.Build.0 = Debug|Any CPU
-		{94F140F4-EB51-423D-84C6-F21E2CADDBA3}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{94F140F4-EB51-423D-84C6-F21E2CADDBA3}.Debug|x86.Build.0 = Debug|Any CPU
+		{94F140F4-EB51-423D-84C6-F21E2CADDBA3}.Debug|x64.ActiveCfg = Debug|x64
+		{94F140F4-EB51-423D-84C6-F21E2CADDBA3}.Debug|x64.Build.0 = Debug|x64
+		{94F140F4-EB51-423D-84C6-F21E2CADDBA3}.Debug|x86.ActiveCfg = Debug|x86
+		{94F140F4-EB51-423D-84C6-F21E2CADDBA3}.Debug|x86.Build.0 = Debug|x86
 		{94F140F4-EB51-423D-84C6-F21E2CADDBA3}.Release|x64.ActiveCfg = Release|Any CPU
 		{94F140F4-EB51-423D-84C6-F21E2CADDBA3}.Release|x64.Build.0 = Release|Any CPU
 		{94F140F4-EB51-423D-84C6-F21E2CADDBA3}.Release|x86.ActiveCfg = Release|Any CPU
