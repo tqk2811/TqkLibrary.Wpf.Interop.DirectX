@@ -31,5 +31,7 @@
 
 		<file src="..\x64\Release\TqkLibrary.Wpf.Interop.DirectX.Native.dll" target="runtimes\win-x64\native\" />
 		<file src="..\x86\Release\TqkLibrary.Wpf.Interop.DirectX.Native.dll" target="runtimes\win-x86\native\" />
+		
+		<file src="**\*.cs" target="src\" exclude="obj\**\*.cs;bin\**\*.cs"/>
 	</files>
 </package>
