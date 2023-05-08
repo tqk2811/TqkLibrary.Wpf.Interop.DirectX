@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<PropertyGroup>
+		<BuildDependsOn>TqkLibraryWpfInteropDirectXPlatformCheck;$(BuildDependsOn);</BuildDependsOn>
+	</PropertyGroup>
+	<Target Name="TqkLibraryWpfInteropDirectXPlatformCheck">
+		<Error Condition="'$(Platform.ToLower())' == 'anycpu'" Text="TqkLibrary.Wpf.Interop.DirectX doesn't support 'Any CPU' as a platform." />
+		<Error Condition="$(Platform.ToLower().Contains('arm'))" Text="TqkLibrary.Wpf.Interop.DirectX doesn't support 'arm' as a platform." />
+	</Target>
+</Project>

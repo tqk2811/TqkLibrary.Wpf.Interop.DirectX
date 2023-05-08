@@ -25,6 +25,8 @@
 	<files>
 		<file src="..\..\README.md" target="docs\" />
 		
+		<file src="TqkLibrary.Wpf.Interop.DirectX.targets" target="build\" />
+		
 		<file src="bin\Release\**\TqkLibrary.Wpf.Interop.DirectX.dll" target="lib\" />
 		<file src="bin\Release\**\TqkLibrary.Wpf.Interop.DirectX.pdb" target="lib\" />
 		<file src="bin\Release\**\TqkLibrary.Wpf.Interop.DirectX.xml" target="lib\" />
