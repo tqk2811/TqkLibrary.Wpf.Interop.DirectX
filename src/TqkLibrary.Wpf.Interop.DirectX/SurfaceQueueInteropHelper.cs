@@ -5,7 +5,7 @@ using System.Windows.Interop;
 
 namespace TqkLibrary.Wpf.Interop.DirectX
 {
-    public class SurfaceQueueInteropHelper : IDisposable
+    internal class SurfaceQueueInteropHelper : IDisposable
     {
         SurfaceQueueInterop m_native = new SurfaceQueueInterop();
         Action<IntPtr, bool> m_renderD2D;
