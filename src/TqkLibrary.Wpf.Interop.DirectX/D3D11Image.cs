@@ -21,7 +21,7 @@ namespace TqkLibrary.Wpf.Interop.DirectX
         {
             if (sender is D3D11Image d3D11Image && args.NewValue is Action<IntPtr, bool> action)
             {
-                if (d3D11Image.Helper != null) d3D11Image.Helper.RenderD2D = action;
+                if (d3D11Image._helper != null) d3D11Image._helper.RenderD2D = action;
             }
         }
 
@@ -35,7 +35,7 @@ namespace TqkLibrary.Wpf.Interop.DirectX
         {
             if (sender is D3D11Image d3D11Image && args.NewValue is IntPtr hwnd)
             {
-                if (d3D11Image.Helper != null) d3D11Image.Helper.HWND = hwnd;
+                if (d3D11Image._helper != null) d3D11Image._helper.HWND = hwnd;
             }
         }
         #endregion
@@ -51,13 +51,14 @@ namespace TqkLibrary.Wpf.Interop.DirectX
             set { SetValue(WindowOwnerProperty, value); }
         }
 
+        private SurfaceQueueInteropHelper _helper;
         public D3D11Image()
         {
 
         }
         ~D3D11Image()
         {
-            this.Helper?.Dispose();
+            this._helper?.Dispose();
         }
 
         public void RequestRender()
@@ -65,27 +66,26 @@ namespace TqkLibrary.Wpf.Interop.DirectX
             this.EnsureHelper();
 
             // Don't bother with a call if there's no callback registered.
-            this.Helper.RequestRenderD2D();
+            this._helper.RequestRenderD2D();
         }
         public void SetPixelSize(int pixelWidth, int pixelHeight)
         {
             this.EnsureHelper();
-            this.Helper.SetPixelSize((uint)pixelWidth, (uint)pixelHeight);
+            this._helper.SetPixelSize((uint)pixelWidth, (uint)pixelHeight);
         }
 
-        internal SurfaceQueueInteropHelper Helper;
         protected override Freezable CreateInstanceCore()
         {
             return new D3D11Image();
         }
         void EnsureHelper()
         {
-            if (this.Helper is null)
+            if (this._helper is null)
             {
-                this.Helper = new SurfaceQueueInteropHelper();
-                this.Helper.HWND = this.WindowOwner;
-                this.Helper.D3DImage = this;
-                this.Helper.RenderD2D = this.OnRender;
+                this._helper = new SurfaceQueueInteropHelper();
+                this._helper.HWND = this.WindowOwner;
+                this._helper.D3DImage = this;
+                this._helper.RenderD2D = this.OnRender;
             }
         }
     }
