@@ -8,20 +8,30 @@ using System.Windows.Interop;
 
 namespace TqkLibrary.Wpf.Interop.DirectX
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="IDXGISurface">IDXGISurface</param>
+    /// <param name="isNewSurface"></param>
+    public delegate void OnRenderDelegate(IntPtr IDXGISurface, bool isNewSurface);
+
+    /// <summary>
+    /// 
+    /// </summary>
     public class D3D11Image : D3DImage
     {
         #region Static
         public static readonly DependencyProperty OnRenderProperty
             = DependencyProperty.Register(
                 nameof(OnRender),
-                typeof(Action<IntPtr, bool>),
+                typeof(OnRenderDelegate),
                 typeof(D3D11Image),
                 new UIPropertyMetadata(null, RenderChanged));
         static void RenderChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
-            if (sender is D3D11Image d3D11Image && args.NewValue is Action<IntPtr, bool> action)
+            if (sender is D3D11Image d3D11Image && args.NewValue is OnRenderDelegate onRenderDelegate)
             {
-                if (d3D11Image._helper != null) d3D11Image._helper.RenderD2D = action;
+                if (d3D11Image._helper != null) d3D11Image._helper.RenderD2D = onRenderDelegate;
             }
         }
 
@@ -41,8 +51,9 @@ namespace TqkLibrary.Wpf.Interop.DirectX
         #endregion
 
         public Action<IntPtr, bool> OnRender
+        public OnRenderDelegate OnRender
         {
-            get { return (Action<IntPtr, bool>)GetValue(OnRenderProperty); }
+            get { return (OnRenderDelegate)GetValue(OnRenderProperty); }
             set { SetValue(OnRenderProperty, value); }
         }
         public IntPtr WindowOwner

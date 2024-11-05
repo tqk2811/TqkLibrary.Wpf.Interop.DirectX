@@ -8,12 +8,12 @@ namespace TqkLibrary.Wpf.Interop.DirectX
     internal class SurfaceQueueInteropHelper : IDisposable
     {
         SurfaceQueueInterop m_native = new SurfaceQueueInterop();
-        Action<IntPtr, bool> m_renderD2D;
+        OnRenderDelegate m_renderD2D;
         D3DImage m_d3dImage;
         //DependencyPropertyChangedEventHandler m_frontBufferAvailableChanged;
 
 
-        public Action<IntPtr, bool> RenderD2D
+        public OnRenderDelegate RenderD2D
         {
             set { m_renderD2D = value; }
         }
