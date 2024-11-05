@@ -21,6 +21,9 @@ namespace TqkLibrary.Wpf.Interop.DirectX
     public class D3D11Image : D3DImage
     {
         #region Static
+        /// <summary>
+        /// 
+        /// </summary>
         public static readonly DependencyProperty OnRenderProperty
             = DependencyProperty.Register(
                 nameof(OnRender),
@@ -34,7 +37,9 @@ namespace TqkLibrary.Wpf.Interop.DirectX
                 if (d3D11Image._helper != null) d3D11Image._helper.RenderD2D = onRenderDelegate;
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public static readonly DependencyProperty WindowOwnerProperty
             = DependencyProperty.Register(
                 nameof(WindowOwner),
@@ -50,12 +55,17 @@ namespace TqkLibrary.Wpf.Interop.DirectX
         }
         #endregion
 
-        public Action<IntPtr, bool> OnRender
+        /// <summary>
+        /// 
+        /// </summary>
         public OnRenderDelegate OnRender
         {
             get { return (OnRenderDelegate)GetValue(OnRenderProperty); }
             set { SetValue(OnRenderProperty, value); }
         }
+        /// <summary>
+        /// 
+        /// </summary>
         public IntPtr WindowOwner
         {
             get { return (IntPtr)GetValue(WindowOwnerProperty); }
@@ -63,15 +73,23 @@ namespace TqkLibrary.Wpf.Interop.DirectX
         }
 
         private SurfaceQueueInteropHelper _helper;
+        /// <summary>
+        /// 
+        /// </summary>
         public D3D11Image()
         {
 
         }
+        /// <summary>
+        /// 
+        /// </summary>
         ~D3D11Image()
         {
             this._helper?.Dispose();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public void RequestRender()
         {
             this.EnsureHelper();
@@ -79,12 +97,22 @@ namespace TqkLibrary.Wpf.Interop.DirectX
             // Don't bother with a call if there's no callback registered.
             this._helper.RequestRenderD2D();
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pixelWidth"></param>
+        /// <param name="pixelHeight"></param>
         public void SetPixelSize(int pixelWidth, int pixelHeight)
         {
             this.EnsureHelper();
             this._helper.SetPixelSize((uint)pixelWidth, (uint)pixelHeight);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         protected override Freezable CreateInstanceCore()
         {
             return new D3D11Image();
