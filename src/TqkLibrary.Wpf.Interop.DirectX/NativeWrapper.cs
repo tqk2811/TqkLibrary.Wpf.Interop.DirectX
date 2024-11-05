@@ -11,6 +11,7 @@ namespace TqkLibrary.Wpf.Interop.DirectX
 {
     internal static class NativeWrapper
     {
+        const string _dllName = "TqkLibrary.Wpf.Interop.DirectX.Native.dll";
 #if DEBUG
         static NativeWrapper()
         {
@@ -28,32 +29,32 @@ namespace TqkLibrary.Wpf.Interop.DirectX
 #endif
 
 
-        [DllImport("TqkLibrary.Wpf.Interop.DirectX.Native.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(_dllName, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr ReleaseInterface(IntPtr pointer);
 
 
-        [DllImport("TqkLibrary.Wpf.Interop.DirectX.Native.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(_dllName, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
         internal static extern int InitD3D10(ref SurfaceQueueInterop surfaceQueueInterop);
 
-        [DllImport("TqkLibrary.Wpf.Interop.DirectX.Native.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(_dllName, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
         internal static extern int InitD3D9(ref SurfaceQueueInterop surfaceQueueInterop);
 
-        [DllImport("TqkLibrary.Wpf.Interop.DirectX.Native.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(_dllName, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
         internal static extern int InitSurfaces(ref SurfaceQueueInterop surfaceQueueInterop);
 
-        [DllImport("TqkLibrary.Wpf.Interop.DirectX.Native.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(_dllName, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
         internal static extern int _IDirect3DDevice9Ex_CheckDeviceState(IntPtr pointer);
 
-        [DllImport("TqkLibrary.Wpf.Interop.DirectX.Native.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(_dllName, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
         internal static extern int QueueHelper_GetDXGISurface(ref SurfaceQueueInterop surfaceQueueInterop, ref QueueHelperStruct queueHelperStruct);
 
-        [DllImport("TqkLibrary.Wpf.Interop.DirectX.Native.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(_dllName, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
         internal static extern int QueueHelper_GetSurface9(ref SurfaceQueueInterop surfaceQueueInterop, ref QueueHelperStruct queueHelperStruct);
 
-        [DllImport("TqkLibrary.Wpf.Interop.DirectX.Native.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(_dllName, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
         internal static extern int QueueHelper_ABProducerEnqueueTexture9(ref SurfaceQueueInterop surfaceQueueInterop, ref QueueHelperStruct queueHelperStruct);
 
-        [DllImport("TqkLibrary.Wpf.Interop.DirectX.Native.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(_dllName, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
         internal static extern void QueueHelper_Release(ref QueueHelperStruct queueHelperStruct);
     }
 }
