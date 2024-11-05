@@ -16,12 +16,11 @@ REFIID                  surfaceIDDXGI = __uuidof(IDXGISurface);
 REFIID                  surfaceID9 = __uuidof(IDirect3DTexture9);
 
 
-IUnknown* ReleaseInterface(IUnknown* pointer) {
-	if (NULL != pointer) {
-		pointer->Release();
-		pointer = NULL;
+VOID ReleaseInterface(IUnknown** pp) {
+	if (NULL != pp && NULL != *pp) {
+		(*pp)->Release();
+		*pp = NULL;
 	}
-	return pointer;
 }
 
 HRESULT InitD3D10(SurfaceQueueInterop& surfaceQueueInterop)

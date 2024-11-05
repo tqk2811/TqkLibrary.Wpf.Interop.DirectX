@@ -85,26 +85,26 @@ namespace TqkLibrary.Wpf.Interop.DirectX
 
         void CleanupD3D10()
         {
-            m_native.m_D3D10Device = NativeWrapper.ReleaseInterface(m_native.m_D3D10Device);
+            NativeWrapper.ReleaseInterface(ref m_native.m_D3D10Device);
         }
 
         void CleanupD3D9()
         {
-            m_native.m_pD3D9Device = NativeWrapper.ReleaseInterface(m_native.m_pD3D9Device);
-            m_native.m_pD3D9 = NativeWrapper.ReleaseInterface(m_native.m_pD3D9);
+            NativeWrapper.ReleaseInterface(ref m_native.m_pD3D9Device);
+            NativeWrapper.ReleaseInterface(ref m_native.m_pD3D9);
         }
 
         void CleanupSurfaces()
         {
             m_native.m_areSurfacesInitialized = false;
 
-            m_native.m_BAProducer = NativeWrapper.ReleaseInterface(m_native.m_BAProducer);
-            m_native.m_ABProducer = NativeWrapper.ReleaseInterface(m_native.m_ABProducer);
-            m_native.m_BAConsumer = NativeWrapper.ReleaseInterface(m_native.m_BAConsumer);
-            m_native.m_ABConsumer = NativeWrapper.ReleaseInterface(m_native.m_ABConsumer);
+            NativeWrapper.ReleaseInterface(ref m_native.m_BAProducer);
+            NativeWrapper.ReleaseInterface(ref m_native.m_ABProducer);
+            NativeWrapper.ReleaseInterface(ref m_native.m_BAConsumer);
+            NativeWrapper.ReleaseInterface(ref m_native.m_ABConsumer);
 
-            m_native.m_ABQueue = NativeWrapper.ReleaseInterface(m_native.m_ABQueue);
-            m_native.m_BAQueue = NativeWrapper.ReleaseInterface(m_native.m_BAQueue);
+            NativeWrapper.ReleaseInterface(ref m_native.m_ABQueue);
+            NativeWrapper.ReleaseInterface(ref m_native.m_BAQueue);
         }
 
         void CleanupD3D()

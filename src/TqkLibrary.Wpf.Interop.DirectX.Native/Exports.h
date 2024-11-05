@@ -58,6 +58,6 @@ TQKLIBRARYWPFINTEROPDIRECTXNATIVEEXPORT void QueueHelper_Release(QueueHelperStru
 
 
 
-TQKLIBRARYWPFINTEROPDIRECTXNATIVEEXPORT IUnknown* ReleaseInterface(IUnknown* pointer);
+TQKLIBRARYWPFINTEROPDIRECTXNATIVEEXPORT VOID ReleaseInterface(IUnknown** pointer);
 
 #endif // !Exports

@@ -30,7 +30,7 @@ namespace TqkLibrary.Wpf.Interop.DirectX
 
 
         [DllImport(_dllName, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern IntPtr ReleaseInterface(IntPtr pointer);
+        internal static extern void ReleaseInterface(ref IntPtr pointer);
 
 
         [DllImport(_dllName, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
