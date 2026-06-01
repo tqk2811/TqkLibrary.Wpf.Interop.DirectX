@@ -219,3 +219,6 @@ FakesAssemblies/
 _Pvt_Extensions
 
 
+
+# Generated native version header (Build.ps1 writes the real version)
+version.generated.h

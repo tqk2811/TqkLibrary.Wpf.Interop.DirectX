@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -183,7 +183,14 @@
   <ItemGroup>
     <None Include="SurfaceQueue.inl" />
   </ItemGroup>
+    <ItemGroup>
+    <ClInclude Include="version.generated.h" />
+    <ResourceCompile Include="version.rc" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <Target Name="EnsureVersionHeader" BeforeTargets="ResourceCompile">
+    <WriteLinesToFile Condition="!Exists('$(MSBuildProjectDirectory)\version.generated.h')" File="$(MSBuildProjectDirectory)\version.generated.h" Overwrite="true" Lines="#pragma once;#define VER_FILE_MAJOR    0;#define VER_FILE_MINOR    0;#define VER_FILE_BUILD    0;#define VER_FILE_REVISION 0;#define VER_FILEVERSION_STR    &quot;0.0.0.0&quot;;#define VER_PRODUCTVERSION_STR &quot;0.0.0&quot;" />
+  </Target>
 </Project>

@@ -1,0 +1,35 @@
+#include <winver.h>
+#include "version.generated.h"
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION    VER_FILE_MAJOR,VER_FILE_MINOR,VER_FILE_BUILD,VER_FILE_REVISION
+ PRODUCTVERSION VER_FILE_MAJOR,VER_FILE_MINOR,VER_FILE_BUILD,VER_FILE_REVISION
+ FILEFLAGSMASK  VS_FFI_FILEFLAGSMASK
+#ifdef _DEBUG
+ FILEFLAGS      VS_FF_DEBUG
+#else
+ FILEFLAGS      0x0L
+#endif
+ FILEOS         VOS_NT_WINDOWS32
+ FILETYPE       VFT_DLL
+ FILESUBTYPE    VFT2_UNKNOWN
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "CompanyName",      "tqk2811"
+            VALUE "FileDescription",  "TqkLibrary.Wpf.Interop.DirectX native library"
+            VALUE "FileVersion",      VER_FILEVERSION_STR
+            VALUE "InternalName",     "TqkLibrary.Wpf.Interop.DirectX.Native.dll"
+            VALUE "LegalCopyright",   "Copyright (C) tqk2811. MIT License."
+            VALUE "OriginalFilename", "TqkLibrary.Wpf.Interop.DirectX.Native.dll"
+            VALUE "ProductName",      "TqkLibrary.Wpf.Interop.DirectX"
+            VALUE "ProductVersion",   VER_PRODUCTVERSION_STR
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
