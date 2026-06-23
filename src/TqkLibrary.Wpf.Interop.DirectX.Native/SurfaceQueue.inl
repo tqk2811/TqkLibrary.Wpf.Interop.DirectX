@@ -36,12 +36,11 @@ ULONG CSurfaceConsumer::AddRef()
 
 ULONG CSurfaceConsumer::Release()
 {
-    InterlockedDecrement(&m_RefCount);
-    ULONG RefCount = m_RefCount;
-    if (m_RefCount == 0)
+    ULONG RefCount = InterlockedDecrement(&m_RefCount);
+    if (RefCount == 0)
     {
         delete this;
-    };
+    }
     return RefCount;
 }
 
@@ -74,12 +73,11 @@ ULONG CSurfaceProducer::AddRef()
 
 ULONG CSurfaceProducer::Release()
 {
-    InterlockedDecrement(&m_RefCount);
-    ULONG RefCount = m_RefCount;
-    if (m_RefCount == 0)
+    ULONG RefCount = InterlockedDecrement(&m_RefCount);
+    if (RefCount == 0)
     {
         delete this;
-    };
+    }
     return RefCount;
 }
 
@@ -112,12 +110,11 @@ ULONG CSurfaceQueue::AddRef()
 
 ULONG CSurfaceQueue::Release()
 {
-    InterlockedDecrement(&m_RefCount);
-    ULONG RefCount = m_RefCount;
-    if (m_RefCount == 0)
+    ULONG RefCount = InterlockedDecrement(&m_RefCount);
+    if (RefCount == 0)
     {
         delete this;
-    };
+    }
     return RefCount;
 }
 
