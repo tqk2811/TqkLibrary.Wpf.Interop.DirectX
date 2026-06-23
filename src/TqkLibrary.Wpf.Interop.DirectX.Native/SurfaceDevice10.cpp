@@ -190,7 +190,7 @@ HRESULT CSurfaceQueueDeviceD3D10::LockSurface(IUnknown* pSurface, DWORD flags)
 
     if (flags & SURFACE_QUEUE_FLAG_DO_NOT_WAIT)
     {
-        flags |= D3D10_MAP_FLAG_DO_NOT_WAIT;
+        d3d10flags |= D3D10_MAP_FLAG_DO_NOT_WAIT;
     }
     
     if (FAILED(hr = pSurface->QueryInterface(__uuidof(ID3D10Texture2D), (void**)&pTex2D)))
