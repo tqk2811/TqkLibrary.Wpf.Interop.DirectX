@@ -1012,7 +1012,8 @@ HRESULT CSurfaceQueue::OpenConsumer(
 
 		if (NULL == m_CreatedSurfaces[i] || NULL == m_ConsumerSurfaces)
 		{
-			return E_FAIL;
+			hr = E_FAIL;
+			goto end;
 		}
 
         IUnknown*   pSurface = NULL;
