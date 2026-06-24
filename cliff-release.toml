@@ -1,0 +1,42 @@
+# git-cliff config rieng cho GitHub Release notes (sinh boi CI .github/workflows/release.yml).
+# Khac cliff.toml (CHANGELOG.md local): KHONG header/footer, sap xep TANG DAN (oldest first),
+# danh so M.N.<n> tang dan. Dung voi `git-cliff --unreleased` (cac commit ke tu tag M.N.0).
+
+[changelog]
+header = ""
+body = """
+{% for commit in commits %}\
+- __MN__.{{ loop.index }} ({{ commit.group }}){% if commit.scope %} **{{ commit.scope }}**{% endif %} {{ commit.message | upper_first }}{% if commit.breaking %} [**breaking**]{% endif %}
+{% endfor %}\
+"""
+footer = ""
+trim = true
+
+[git]
+conventional_commits = true
+filter_unconventional = true
+split_commits = false
+commit_preprocessors = [
+    { pattern = '  +', replace = " " },
+]
+commit_parsers = [
+    { message = "^feat", group = "feat" },
+    { message = "^fix", group = "fix" },
+    { message = "^perf", group = "perf" },
+    { message = "^refactor", group = "refactor" },
+    { message = "^docs", group = "docs" },
+    { message = "^test", group = "test" },
+    { message = "^build", group = "build" },
+    { message = "^ci", group = "ci" },
+    { message = "^style", group = "style" },
+    { message = "^revert", group = "revert" },
+    { message = "^sample", group = "sample" },
+    { message = "^chore\\(release\\):", skip = true },
+    { message = "^chore\\(deps\\)", skip = true },
+    { message = "^chore", group = "chore" },
+    { message = ".*", group = "other" },
+]
+filter_commits = false
+tag_pattern = '[vV]?[0-9]+\.[0-9]+\.[0-9]+'
+# Tang dan: commit cu nhat (ngay sau tag) len dau, loop.index = 1 -> M.N.1
+sort_commits = "oldest"

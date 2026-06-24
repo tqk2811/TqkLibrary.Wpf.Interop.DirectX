@@ -1,0 +1,93 @@
+name: Release
+
+# CI build + publish. KHONG chay mac dinh: master luon skip tru khi commit (head cua push)
+# chua marker '[release]'. Cung cho chay tay (workflow_dispatch).
+#
+# Mo hinh /releases: moi dong minor M.N co 1 GitHub Release ten theo tag 'M.N.0'.
+# Moi lan chay -> build version 'M.N.<so-commit>' -> upload 'M.N.<N>.nupkg' lam asset
+# vao Release 'M.N.0' + cap nhat notes (tang dan, danh so) cac change ke tu 'M.N.0'.
+#
+# Tien dieu kien: tag 'M.N.0' phai ton tai truoc (moc GitVersion + ten Release) -> ban tu tao.
+# Push nuget.org chi khi co secret 'nugetKey'.
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[release]')
+    runs-on: windows-latest
+    steps:
+      - name: Checkout (full history + tags)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            6.0.x
+            7.0.x
+            8.0.x
+
+      - name: Install git-cliff
+        shell: pwsh
+        run: |
+          $ver = "2.13.1"
+          $url = "https://github.com/orhun/git-cliff/releases/download/v$ver/git-cliff-$ver-x86_64-pc-windows-msvc.zip"
+          $zip = Join-Path $env:RUNNER_TEMP "git-cliff.zip"
+          Invoke-WebRequest $url -OutFile $zip
+          $dst = Join-Path $env:RUNNER_TEMP "git-cliff"
+          Expand-Archive $zip -DestinationPath $dst -Force
+          $exe = Get-ChildItem $dst -Recurse -Filter git-cliff.exe | Select-Object -First 1
+          Add-Content -Path $env:GITHUB_PATH -Value $exe.DirectoryName
+
+      - name: Build + pack (native x64/Win32 + managed)
+        shell: pwsh
+        run: ./src/Build.ps1   # nugetKey/localNuget khong set -> Build.ps1 bo qua push (khong pause)
+
+      - name: Create/update Release, upload nupkg, push nuget
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NUGET_KEY: ${{ secrets.nugetKey }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $nupkg = Get-ChildItem ./src/TqkLibrary.Wpf.Interop.DirectX/bin/Release/*.nupkg | Select-Object -First 1
+          if (-not $nupkg) { throw "No .nupkg produced by Build.ps1" }
+          if ($nupkg.BaseName -notmatch '\.(\d+)\.(\d+)\.(\d+)$') { throw "Cannot parse version from $($nupkg.Name)" }
+          $major = $Matches[1]; $minor = $Matches[2]
+          $tag = "$major.$minor.0"
+          $mn  = "$major.$minor"
+          Write-Host "nupkg=$($nupkg.Name)  release-tag=$tag"
+
+          # Release notes: commit ke tu tag M.N.0, tang dan, danh so M.N.<n>.
+          # Dung range '<tag>..HEAD' (topology dung); template emit '__MN__' -> thay bang M.N.
+          $notes = git-cliff --config cliff-release.toml "$tag..HEAD" | Out-String
+          $notes = ($notes -replace '__MN__', $mn).Trim()
+          if ([string]::IsNullOrWhiteSpace($notes)) { $notes = "Release $tag" }
+          Set-Content -Path RELEASE_NOTES.md -Value $notes -Encoding utf8
+
+          # Tao Release 'M.N.0' neu chua co (tren tag da ton tai), neu co thi cap nhat notes.
+          gh release view $tag *> $null
+          if ($LASTEXITCODE -eq 0) {
+            gh release edit $tag --notes-file RELEASE_NOTES.md
+          } else {
+            gh release create $tag --title $tag --notes-file RELEASE_NOTES.md --verify-tag
+          }
+
+          # Dinh kem nupkg cua lan build nay (clobber neu rebuild cung version).
+          gh release upload $tag $nupkg.FullName --clobber
+
+          # Push nuget.org chi khi co secret nugetKey.
+          if (-not [string]::IsNullOrWhiteSpace($env:NUGET_KEY)) {
+            dotnet nuget push $nupkg.FullName -k $env:NUGET_KEY -s https://api.nuget.org/v3/index.json --skip-duplicate
+          } else {
+            Write-Host "No 'nugetKey' secret -> skip nuget.org push"
+          }
