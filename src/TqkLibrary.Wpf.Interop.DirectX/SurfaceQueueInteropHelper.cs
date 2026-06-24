@@ -233,6 +233,13 @@ namespace TqkLibrary.Wpf.Interop.DirectX
                 if (FAILED(hr))
                     return;
 
+                // Tracks whether this frame's content was produced. If the user render callback
+                // throws we must NOT abort here: with the shared surface queue that would strand
+                // the just-dequeued surface outside the queue, and the next Dequeue (which waits
+                // INFINITE) would block the UI thread forever. Instead we skip *presenting* this
+                // frame (the previous back buffer stays on screen) but still flow the surface back
+                // through the queue below so the pipeline keeps running.
+                bool rendered = true;
                 if (renderMode == QueueRenderMode.RenderDXGI)
                 {
                     try
@@ -244,8 +251,7 @@ namespace TqkLibrary.Wpf.Interop.DirectX
                         // Debug.WriteLine is [Conditional("DEBUG")] so it is stripped in Release;
                         // referencing ex here keeps it "used" (avoids CS0168) without an #if.
                         Debug.WriteLine($"{ex.GetType().FullName}: {ex.Message}, {ex.StackTrace}");
-                        hr = E_FAIL;
-                        return;
+                        rendered = false;
                     }
                 }
 
@@ -253,7 +259,10 @@ namespace TqkLibrary.Wpf.Interop.DirectX
                 if (FAILED(hr))
                     return;
 
-                m_d3dImage.SetBackBuffer(D3DResourceType.IDirect3DSurface9, queueHelperStruct.pSurface9, true);
+                // Only present a frame we actually rendered; on a failed callback we keep the last
+                // good back buffer but still enqueue the surface below to recycle it.
+                if (rendered)
+                    m_d3dImage.SetBackBuffer(D3DResourceType.IDirect3DSurface9, queueHelperStruct.pSurface9, true);
 
                 NativeWrapper.QueueHelper_ABProducerEnqueueTexture9(ref m_native, ref queueHelperStruct);
             }

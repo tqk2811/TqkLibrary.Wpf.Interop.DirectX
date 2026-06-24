@@ -20,9 +20,10 @@ namespace TqkLibrary.Wpf.Interop.DirectX
     /// (re)initialized by the renderer; <see langword="false"/> for an existing surface.
     /// </param>
     /// <remarks>
-    /// The callback must not throw. If it does, the library catches the exception, skips that
-    /// frame and continues — the exception is only logged in DEBUG builds and is not surfaced
-    /// to the caller. Handle your own errors inside the callback.
+    /// The callback should not throw. If it does, the library catches the exception, skips
+    /// presenting that frame (the previous frame stays on screen) and keeps the pipeline
+    /// running — the exception is only logged in DEBUG builds and is not surfaced to the caller.
+    /// Prefer handling your own errors inside the callback.
     /// </remarks>
     public delegate void OnRenderDelegate(IntPtr IDXGISurface, bool isNewSurface);
 
