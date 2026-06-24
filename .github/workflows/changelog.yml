@@ -1,0 +1,47 @@
+name: Release Changelog
+
+# Khi push tag [vV]?X.Y.Z: sinh release notes tu Conventional Commits (git-cliff)
+# va tao GitHub Release cho tag do. KHONG ghi nguoc vao repo
+# (file CHANGELOG.md do script local .\Changelog.ps1 cap nhat truoc khi tag).
+
+on:
+  push:
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+'
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release-notes:
+    name: Generate release notes & GitHub Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (full history + tags)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate notes for the pushed tag
+        id: cliff
+        uses: orhun/git-cliff-action@v4
+        with:
+          config: cliff.toml
+          # --latest: chi lay section cua tag moi nhat; --strip header: bo phan header file.
+          args: --latest --strip header
+        env:
+          OUTPUT: RELEASE_NOTES.md
+
+      # Create the release if missing, otherwise just refresh its notes.
+      - name: Create or update GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view "${{ github.ref_name }}" >/dev/null 2>&1; then
+            gh release edit "${{ github.ref_name }}" --notes-file RELEASE_NOTES.md
+          else
+            gh release create "${{ github.ref_name }}" --title "${{ github.ref_name }}" --notes-file RELEASE_NOTES.md --verify-tag
+          fi
