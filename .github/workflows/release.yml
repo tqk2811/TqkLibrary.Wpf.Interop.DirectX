@@ -50,7 +50,7 @@ jobs:
 
       - name: Build + pack (native x64/Win32 + managed)
         shell: pwsh
-        run: ./src/Build.ps1   # nugetKey/localNuget khong set -> Build.ps1 bo qua push (khong pause)
+        run: ./.github/workflows/BuildCI.ps1   # build + pack only; nuget push handled below
 
       - name: Create/update Release, upload nupkg, push nuget
         shell: pwsh
@@ -60,7 +60,7 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
           $nupkg = Get-ChildItem ./src/TqkLibrary.Wpf.Interop.DirectX/bin/Release/*.nupkg | Select-Object -First 1
-          if (-not $nupkg) { throw "No .nupkg produced by Build.ps1" }
+          if (-not $nupkg) { throw "No .nupkg produced by BuildCI.ps1" }
           if ($nupkg.BaseName -notmatch '\.(\d+)\.(\d+)\.(\d+)$') { throw "Cannot parse version from $($nupkg.Name)" }
           $major = $Matches[1]; $minor = $Matches[2]
           $tag = "$major.$minor.0"

@@ -1,5 +1,8 @@
+# CI build script: native (x64 + Win32) + managed pack. NO nuget push -- the release.yml
+# workflow handles publishing (GitHub Release asset + optional nuget.org). Resolves the src/
+# dir from this script's location, so it can be invoked from the repo root.
 $ErrorActionPreference = 'Stop'
-$root = $PSScriptRoot
+$root = (Resolve-Path (Join-Path $PSScriptRoot '..\..\src')).Path
 Set-Location $root
 
 $vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio\Installer\vswhere.exe'
@@ -31,7 +34,7 @@ Remove-Item -Recurse -Force .\x64\Release\** -ErrorAction SilentlyContinue
 Remove-Item -Recurse -Force .\x86\Release\** -ErrorAction SilentlyContinue
 Remove-Item -Recurse -Force .\TqkLibrary.Wpf.Interop.DirectX\bin\Release\** -ErrorAction SilentlyContinue
 
-# Restore native NuGet packages (packages.config, e.g. SDL2 redist) before building
+# Restore native NuGet packages (packages.config) before building
 $sln = Get-ChildItem $root -Filter *.sln | Select-Object -First 1
 if ($sln) { Write-Host "Restoring $($sln.Name) ..."; nuget restore $sln.FullName | Out-Host }
 
@@ -46,9 +49,3 @@ dotnet pack .\TqkLibrary.Wpf.Interop.DirectX\TqkLibrary.Wpf.Interop.DirectX.cspr
 if ($LASTEXITCODE -ne 0) { throw "dotnet pack failed" }
 $nupkg = Get-ChildItem .\TqkLibrary.Wpf.Interop.DirectX\bin\Release\*.nupkg | Select-Object -First 1
 Write-Host "Packed: $($nupkg.Name)"
-
-if (![string]::IsNullOrWhiteSpace($env:localNuget)) { Copy-Item $nupkg.FullName -Destination $env:localNuget -Force }
-if (![string]::IsNullOrWhiteSpace($env:nugetKey)) {
-    Write-Host "Enter to push nuget"; pause; Write-Host "enter to confirm"; pause
-    nuget push $nupkg.FullName -ApiKey $env:nugetKey -Source https://api.nuget.org/v3/index.json
-}
