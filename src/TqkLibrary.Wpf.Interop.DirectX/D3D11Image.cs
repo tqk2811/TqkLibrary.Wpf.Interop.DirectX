@@ -19,6 +19,11 @@ namespace TqkLibrary.Wpf.Interop.DirectX
     /// <see langword="true"/> when the surface was just (re)created and must be fully
     /// (re)initialized by the renderer; <see langword="false"/> for an existing surface.
     /// </param>
+    /// <remarks>
+    /// The callback must not throw. If it does, the library catches the exception, skips that
+    /// frame and continues — the exception is only logged in DEBUG builds and is not surfaced
+    /// to the caller. Handle your own errors inside the callback.
+    /// </remarks>
     public delegate void OnRenderDelegate(IntPtr IDXGISurface, bool isNewSurface);
 
     /// <summary>
@@ -72,6 +77,7 @@ namespace TqkLibrary.Wpf.Interop.DirectX
 
         /// <summary>
         /// Gets or sets the callback used to render each frame into the shared DXGI surface.
+        /// The callback must not throw — see <see cref="OnRenderDelegate"/>.
         /// </summary>
         public OnRenderDelegate OnRender
         {
