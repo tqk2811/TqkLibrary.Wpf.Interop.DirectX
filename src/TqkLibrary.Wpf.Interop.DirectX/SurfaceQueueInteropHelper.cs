@@ -90,6 +90,21 @@ namespace TqkLibrary.Wpf.Interop.DirectX
         {
             QueueHelper(QueueRenderMode.RenderDXGI);
         }
+        public uint NumSurfaces
+        {
+            get { return m_native.m_numSurfaces; }
+            set
+            {
+                uint count = value < 1 ? 1 : value;
+                if (m_native.m_numSurfaces != count)
+                {
+                    m_native.m_numSurfaces = count;
+                    // The buffer count changed; drop the surfaces so the next render recreates
+                    // the queue with the new count.
+                    CleanupSurfaces();
+                }
+            }
+        }
 
         bool FAILED(int hr) => hr < 0;
 
@@ -108,7 +123,7 @@ namespace TqkLibrary.Wpf.Interop.DirectX
 
         void CleanupSurfaces()
         {
-            m_native.m_areSurfacesInitialized = false;
+            m_native.m_areSurfacesInitialized = 0;
 
             NativeWrapper.ReleaseInterface(ref m_native.m_BAProducer);
             NativeWrapper.ReleaseInterface(ref m_native.m_ABProducer);
@@ -121,12 +136,12 @@ namespace TqkLibrary.Wpf.Interop.DirectX
 
         void CleanupD3D()
         {
-            if (m_native.m_areSurfacesInitialized)
+            if (m_native.m_areSurfacesInitialized != 0)
             {
                 CleanupSurfaces();
             }
 
-            m_native.m_isD3DInitialized = false;
+            m_native.m_isD3DInitialized = 0;
 
             CleanupD3D10();
             CleanupD3D9();
@@ -135,7 +150,7 @@ namespace TqkLibrary.Wpf.Interop.DirectX
         int /*HRESULT*/ InitD3D()
         {
             int hr = 0;
-            if (!m_native.m_isD3DInitialized)
+            if (m_native.m_isD3DInitialized == 0)
             {
                 hr = NativeWrapper.InitD3D9(ref m_native);
                 if (FAILED(hr))
@@ -145,7 +160,7 @@ namespace TqkLibrary.Wpf.Interop.DirectX
                 if (FAILED(hr))
                     goto Cleanup;
 
-                m_native.m_isD3DInitialized = true;
+                m_native.m_isD3DInitialized = 1;
             }
 
         Cleanup:
@@ -165,7 +180,7 @@ namespace TqkLibrary.Wpf.Interop.DirectX
         {
             int hr = S_OK;
 
-            if (m_native.m_isD3DInitialized)
+            if (m_native.m_isD3DInitialized != 0)
             {
                 hr = NativeWrapper._IDirect3DDevice9Ex_CheckDeviceState(m_native.m_pD3D9Device);
 
@@ -175,14 +190,14 @@ namespace TqkLibrary.Wpf.Interop.DirectX
                 }
             }
 
-            if (!m_native.m_isD3DInitialized)
+            if (m_native.m_isD3DInitialized == 0)
             {
                 hr = InitD3D();
                 if (FAILED(hr))
                     goto Cleanup;
             }
 
-            if (!m_native.m_areSurfacesInitialized)
+            if (m_native.m_areSurfacesInitialized == 0)
             {
                 // Can be S_FALSE if there's nothing to do.
                 hr = NativeWrapper.InitSurfaces(ref m_native);
@@ -197,7 +212,7 @@ namespace TqkLibrary.Wpf.Interop.DirectX
             {
                 CleanupD3D();
             }
-            return m_native.m_areSurfacesInitialized;
+            return m_native.m_areSurfacesInitialized != 0;
         }
 
         // If fShouldRenderD3D10 is true, this method performs the callout to RenderD3D10.
@@ -205,9 +220,9 @@ namespace TqkLibrary.Wpf.Interop.DirectX
 
         void QueueHelper(QueueRenderMode renderMode)
         {
-            bool isNewSurface = !m_native.m_areSurfacesInitialized;
+            bool isNewSurface = m_native.m_areSurfacesInitialized == 0;
 
-            if (_disposed || m_native.m_shouldSkipRender || m_d3dImage is null || !Initialize())
+            if (_disposed || m_native.m_shouldSkipRender != 0 || m_d3dImage is null || !Initialize())
                 return;
 
             QueueHelperStruct queueHelperStruct = new QueueHelperStruct();

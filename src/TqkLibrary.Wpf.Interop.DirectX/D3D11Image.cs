@@ -73,6 +73,22 @@ namespace TqkLibrary.Wpf.Interop.DirectX
                 if (d3D11Image._helper != null) d3D11Image._helper.HWND = hwnd;
             }
         }
+        /// <summary>
+        /// Identifies the <see cref="NumSurfaces"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty NumSurfacesProperty
+            = DependencyProperty.Register(
+                nameof(NumSurfaces),
+                typeof(int),
+                typeof(D3D11Image),
+                new UIPropertyMetadata(1, NumSurfacesChanged));
+        static void NumSurfacesChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+            if (sender is D3D11Image d3D11Image && args.NewValue is int count)
+            {
+                if (d3D11Image._helper != null) d3D11Image._helper.NumSurfaces = (uint)(count < 1 ? 1 : count);
+            }
+        }
         #endregion
 
         /// <summary>
@@ -92,6 +108,18 @@ namespace TqkLibrary.Wpf.Interop.DirectX
         {
             get { return (IntPtr)GetValue(WindowOwnerProperty); }
             set { SetValue(WindowOwnerProperty, value); }
+        }
+        /// <summary>
+        /// Gets or sets the number of shared surfaces used by the interop queue. The default is
+        /// <c>1</c>. Use <c>2</c> (double buffering) for a smoother pipeline at the cost of roughly
+        /// double the surface VRAM — it lets the GPU produce the next frame while WPF still
+        /// composes the current one. Values below <c>1</c> are clamped to <c>1</c>. Changing this
+        /// recreates the surfaces on the next render, so set it before rendering starts.
+        /// </summary>
+        public int NumSurfaces
+        {
+            get { return (int)GetValue(NumSurfacesProperty); }
+            set { SetValue(NumSurfacesProperty, value); }
         }
 
         private SurfaceQueueInteropHelper _helper;
@@ -156,6 +184,7 @@ namespace TqkLibrary.Wpf.Interop.DirectX
             {
                 this._helper = new SurfaceQueueInteropHelper();
                 this._helper.HWND = this.WindowOwner;
+                this._helper.NumSurfaces = (uint)(this.NumSurfaces < 1 ? 1 : this.NumSurfaces);
                 this._helper.D3DImage = this;
                 this._helper.RenderD2D = this.OnRender;
             }

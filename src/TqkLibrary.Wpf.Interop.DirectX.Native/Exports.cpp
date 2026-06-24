@@ -101,7 +101,8 @@ HRESULT InitSurfaces(SurfaceQueueInterop& surfaceQueueInterop)
 	desc.Width = surfaceQueueInterop.m_pixelWidth;
 	desc.Height = surfaceQueueInterop.m_pixelHeight;
 	desc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
-	desc.NumSurfaces = 1;
+	// Default to a single surface when the caller hasn't set a count.
+	desc.NumSurfaces = (surfaceQueueInterop.m_numSurfaces == 0) ? 1 : surfaceQueueInterop.m_numSurfaces;
 	desc.MetaDataSize = sizeof(int);
 	desc.Flags = SURFACE_QUEUE_FLAG_SINGLE_THREADED;
 

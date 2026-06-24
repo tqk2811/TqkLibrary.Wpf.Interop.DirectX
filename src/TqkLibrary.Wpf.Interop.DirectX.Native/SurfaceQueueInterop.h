@@ -6,6 +6,8 @@ struct SurfaceQueueInterop
     UINT32 m_pixelWidth;
     UINT32 m_pixelHeight;
 
+    UINT32 m_numSurfaces;
+
     HWND m_hwnd;
 
     IDirect3D9Ex* m_pD3D9;
