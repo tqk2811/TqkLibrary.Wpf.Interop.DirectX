@@ -6,6 +6,7 @@
 		<version>$version$</version>
 		<description>P/Invoke version of Microsoft.Wpf.Interop.DirectX</description>
 		<authors>tqk2811</authors>
+		<releaseNotes>https://github.com/tqk2811/TqkLibrary.Wpf.Interop.DirectX/blob/master/CHANGELOG.md</releaseNotes>
 		<readme>docs\README.md</readme>
 		<projectUrl>https://github.com/tqk2811/TqkLibrary.Wpf.Interop.DirectX</projectUrl>
 		<repository type="git" url="https://github.com/tqk2811/TqkLibrary.Wpf.Interop.DirectX"/>

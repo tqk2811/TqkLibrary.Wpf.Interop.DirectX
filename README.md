@@ -1,6 +1,6 @@
 # TqkLibrary.Wpf.Interop.DirectX
 [WPFDXInterop](https://github.com/microsoft/WPFDXInterop) but P/Invoke version for Net5 or higher.  
-Get it on [Nuget](https://www.nuget.org/packages/TqkLibrary.Wpf.Interop.DirectX/) or [Release](https://github.com/tqk2811/TqkLibrary.Wpf.Interop.DirectX/releases)  
+Get it on [Nuget](https://www.nuget.org/packages/TqkLibrary.Wpf.Interop.DirectX/) or [Release](https://github.com/tqk2811/TqkLibrary.Wpf.Interop.DirectX/releases). See the full [Changelog](https://github.com/tqk2811/TqkLibrary.Wpf.Interop.DirectX/blob/master/CHANGELOG.md).  
 
 ______________________
 # Sample code
