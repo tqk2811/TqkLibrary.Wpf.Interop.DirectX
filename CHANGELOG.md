@@ -7,6 +7,11 @@ A **timeline read bottom-to-top**: each `## [M.m.0]` is the tag that opened a mi
 commits stacked ABOVE it are that line's successive versions `M.m.1`, `M.m.2`, … (patch number =
 commits since the tag), newest on top. Each line shows its version, conventional type, and message.
 
+- 1.1.17 *(ci)* Move build into .github/workflows/BuildCI.ps1, drop local build
+- 1.1.16 *(ci)* Show only functional changes in release notes
+- 1.1.15 *(ci)* Add [release]-gated build/publish workflow
+- 1.1.14 *(docs)* Surface changelog on nuget + README
+- 1.1.13 *(docs)* Number changelog commits + tag-at-bottom timeline
 - 1.1.12 *(docs)* Add git-cliff changelog tooling
 - 1.1.11 *(sample)* Guard null GetEntryAssembly in demo NativeMethods ctor
 - 1.1.10 *(docs)* Note OnRender must not throw (library swallows + skips frame)
