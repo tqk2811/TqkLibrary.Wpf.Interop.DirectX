@@ -297,8 +297,15 @@
 #if DEBUG
             static NativeMethods()
             {
+                // GetEntryAssembly() is null under the VS XAML designer / some test hosts, and
+                // Location is empty for single-file publish; fall back so we never NRE here.
+                Assembly asm = Assembly.GetEntryAssembly() ?? typeof(NativeMethods).Assembly;
+                string baseDir = string.IsNullOrEmpty(asm.Location)
+                    ? AppContext.BaseDirectory
+                    : Path.GetDirectoryName(asm.Location);
+
                 string path = Path.Combine(
-                    Path.GetDirectoryName(Assembly.GetEntryAssembly().Location),
+                    baseDir,
                     Environment.Is64BitProcess ? "x64" : "x86");
 
                 bool r = SetDllDirectory(path);
