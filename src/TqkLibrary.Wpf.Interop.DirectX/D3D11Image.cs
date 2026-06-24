@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,20 +9,35 @@ using System.Windows.Interop;
 namespace TqkLibrary.Wpf.Interop.DirectX
 {
     /// <summary>
-    /// 
+    /// Callback invoked to draw a frame into the shared DXGI surface.
     /// </summary>
-    /// <param name="IDXGISurface">IDXGISurface</param>
-    /// <param name="isNewSurface"></param>
+    /// <param name="IDXGISurface">
+    /// Native pointer to the <c>IDXGISurface</c> to render into. It is valid only for the
+    /// duration of the callback — do not store it for later use.
+    /// </param>
+    /// <param name="isNewSurface">
+    /// <see langword="true"/> when the surface was just (re)created and must be fully
+    /// (re)initialized by the renderer; <see langword="false"/> for an existing surface.
+    /// </param>
     public delegate void OnRenderDelegate(IntPtr IDXGISurface, bool isNewSurface);
 
     /// <summary>
-    /// 
+    /// A <see cref="D3DImage"/> whose content is produced by the native DirectX interop
+    /// pipeline (a P/Invoke port of Microsoft.Wpf.Interop.DirectX).
+    /// <para>
+    /// This type owns unmanaged DirectX resources and implements <see cref="IDisposable"/>.
+    /// WPF never disposes an <see cref="System.Windows.Media.ImageSource"/> automatically, so
+    /// you must call <see cref="Dispose"/> yourself, on the UI thread, when you are finished
+    /// with the control — for example from the hosting window's <c>Closing</c> or the host
+    /// element's <c>Unloaded</c> handler. If <see cref="Dispose"/> is never called, the native
+    /// resources are only released later by a finalizer running on the GC thread.
+    /// </para>
     /// </summary>
     public class D3D11Image : D3DImage, IDisposable
     {
         #region Static
         /// <summary>
-        /// 
+        /// Identifies the <see cref="OnRender"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty OnRenderProperty
             = DependencyProperty.Register(
@@ -38,7 +53,7 @@ namespace TqkLibrary.Wpf.Interop.DirectX
             }
         }
         /// <summary>
-        /// 
+        /// Identifies the <see cref="WindowOwner"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty WindowOwnerProperty
             = DependencyProperty.Register(
@@ -56,7 +71,7 @@ namespace TqkLibrary.Wpf.Interop.DirectX
         #endregion
 
         /// <summary>
-        /// 
+        /// Gets or sets the callback used to render each frame into the shared DXGI surface.
         /// </summary>
         public OnRenderDelegate OnRender
         {
@@ -64,7 +79,8 @@ namespace TqkLibrary.Wpf.Interop.DirectX
             set { SetValue(OnRenderProperty, value); }
         }
         /// <summary>
-        /// 
+        /// Gets or sets the HWND of the window that owns the rendering; it is used when creating
+        /// the underlying D3D9 device.
         /// </summary>
         public IntPtr WindowOwner
         {
@@ -74,7 +90,7 @@ namespace TqkLibrary.Wpf.Interop.DirectX
 
         private SurfaceQueueInteropHelper _helper;
         /// <summary>
-        /// 
+        /// Initializes a new instance of the <see cref="D3D11Image"/> class.
         /// </summary>
         public D3D11Image()
         {
@@ -84,6 +100,9 @@ namespace TqkLibrary.Wpf.Interop.DirectX
         /// Releases the native DirectX resources held by this control. Call this on the UI
         /// thread that created the control for deterministic cleanup; otherwise the helper's
         /// own finalizer frees them on the GC thread (with a process-shutdown guard).
+        /// <para>
+        /// WPF does not call this automatically — see the remarks on <see cref="D3D11Image"/>.
+        /// </para>
         /// </summary>
         public void Dispose()
         {
@@ -93,7 +112,8 @@ namespace TqkLibrary.Wpf.Interop.DirectX
             GC.SuppressFinalize(this);
         }
         /// <summary>
-        /// 
+        /// Requests that a single frame be rendered now through the <see cref="OnRender"/>
+        /// callback. Must be called on the UI thread.
         /// </summary>
         public void RequestRender()
         {
@@ -104,10 +124,11 @@ namespace TqkLibrary.Wpf.Interop.DirectX
         }
 
         /// <summary>
-        /// 
+        /// Sets the pixel size of the DirectX render surface. Call on the UI thread, e.g. when
+        /// the host element's size changes. Passing a new size recreates the shared surface.
         /// </summary>
-        /// <param name="pixelWidth"></param>
-        /// <param name="pixelHeight"></param>
+        /// <param name="pixelWidth">Desired surface width, in pixels.</param>
+        /// <param name="pixelHeight">Desired surface height, in pixels.</param>
         public void SetPixelSize(int pixelWidth, int pixelHeight)
         {
             this.EnsureHelper();
@@ -115,9 +136,10 @@ namespace TqkLibrary.Wpf.Interop.DirectX
         }
 
         /// <summary>
-        /// 
+        /// When implementing <see cref="Freezable"/>, creates a new instance of
+        /// <see cref="D3D11Image"/>.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A new <see cref="D3D11Image"/> instance.</returns>
         protected override Freezable CreateInstanceCore()
         {
             return new D3D11Image();
