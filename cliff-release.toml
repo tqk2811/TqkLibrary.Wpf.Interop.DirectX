@@ -4,9 +4,14 @@
 
 [changelog]
 header = ""
+# Chi liet ke cac loai thay doi nguoi dung quan tam. Loc o BUOC HIEN THI (khong skip khoi
+# mang) de loop.index van = so commit thuc te ke tu tag -> so dung, co khoang trong o cho bi bo.
+# Muon them/bot loai: sua danh sach trong `commit.group in [...]` ben duoi.
 body = """
 {% for commit in commits %}\
+{% if commit.group in ["feat", "fix", "perf", "revert"] %}\
 - __MN__.{{ loop.index }} ({{ commit.group }}){% if commit.scope %} **{{ commit.scope }}**{% endif %} {{ commit.message | upper_first }}{% if commit.breaking %} [**breaking**]{% endif %}
+{% endif %}\
 {% endfor %}\
 """
 footer = ""
@@ -31,10 +36,10 @@ commit_parsers = [
     { message = "^style", group = "style" },
     { message = "^revert", group = "revert" },
     { message = "^sample", group = "sample" },
-    { message = "^chore\\(release\\):", skip = true },
-    { message = "^chore\\(deps\\)", skip = true },
     { message = "^chore", group = "chore" },
     { message = ".*", group = "other" },
+    # Khong dung skip o day: moi commit phai con trong mang de loop.index = so commit thuc te
+    # ke tu tag (= GitVersion). Viec loc loai nao hien thi nam o body template.
 ]
 filter_commits = false
 tag_pattern = '[vV]?[0-9]+\.[0-9]+\.[0-9]+'
