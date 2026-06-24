@@ -10,6 +10,7 @@ namespace TqkLibrary.Wpf.Interop.DirectX
         SurfaceQueueInterop m_native = new SurfaceQueueInterop();
         OnRenderDelegate m_renderD2D;
         D3DImage m_d3dImage;
+        bool _disposed;
         //DependencyPropertyChangedEventHandler m_frontBufferAvailableChanged;
 
 
@@ -61,6 +62,17 @@ namespace TqkLibrary.Wpf.Interop.DirectX
         }
         void Dispose(bool disposing)
         {
+            if (_disposed)
+                return;
+            _disposed = true;
+
+            // In a finalizer during process/AppDomain shutdown we run on the GC thread and
+            // the native DLL may already be unloaded; the OS reclaims everything, so don't
+            // risk calling into native code. Release only on a deterministic Dispose, or while
+            // the process is still running normally.
+            if (!disposing && (Environment.HasShutdownStarted || AppDomain.CurrentDomain.IsFinalizingForUnload()))
+                return;
+
             CleanupD3D();
         }
 
@@ -195,7 +207,7 @@ namespace TqkLibrary.Wpf.Interop.DirectX
         {
             bool isNewSurface = !m_native.m_areSurfacesInitialized;
 
-            if (m_native.m_shouldSkipRender || m_d3dImage is null || !Initialize())
+            if (_disposed || m_native.m_shouldSkipRender || m_d3dImage is null || !Initialize())
                 return;
 
             QueueHelperStruct queueHelperStruct = new QueueHelperStruct();
@@ -214,9 +226,9 @@ namespace TqkLibrary.Wpf.Interop.DirectX
                     }
                     catch (Exception ex)
                     {
-#if DEBUG
+                        // Debug.WriteLine is [Conditional("DEBUG")] so it is stripped in Release;
+                        // referencing ex here keeps it "used" (avoids CS0168) without an #if.
                         Debug.WriteLine($"{ex.GetType().FullName}: {ex.Message}, {ex.StackTrace}");
-#endif
                         hr = E_FAIL;
                         return;
                     }

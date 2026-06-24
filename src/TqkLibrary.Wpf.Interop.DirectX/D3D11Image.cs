@@ -18,7 +18,7 @@ namespace TqkLibrary.Wpf.Interop.DirectX
     /// <summary>
     /// 
     /// </summary>
-    public class D3D11Image : D3DImage
+    public class D3D11Image : D3DImage, IDisposable
     {
         #region Static
         /// <summary>
@@ -81,11 +81,16 @@ namespace TqkLibrary.Wpf.Interop.DirectX
 
         }
         /// <summary>
-        /// 
+        /// Releases the native DirectX resources held by this control. Call this on the UI
+        /// thread that created the control for deterministic cleanup; otherwise the helper's
+        /// own finalizer frees them on the GC thread (with a process-shutdown guard).
         /// </summary>
-        ~D3D11Image()
+        public void Dispose()
         {
-            this._helper?.Dispose();
+            SurfaceQueueInteropHelper helper = this._helper;
+            this._helper = null;
+            helper?.Dispose();
+            GC.SuppressFinalize(this);
         }
         /// <summary>
         /// 
