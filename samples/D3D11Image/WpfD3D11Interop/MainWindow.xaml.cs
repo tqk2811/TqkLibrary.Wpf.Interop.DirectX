@@ -257,9 +257,15 @@
 
         private void UninitializeRendering()
         {
-            Cleanup();
-
+            // Stop requesting frames before tearing anything down.
             CompositionTarget.Rendering -= this.CompositionTarget_Rendering;
+
+            // D3D11Image owns native DirectX resources and is NOT disposed by WPF automatically.
+            // Dispose it here on the UI thread for deterministic cleanup instead of leaving it to
+            // the GC finalizer.
+            InteropImage.Dispose();
+
+            Cleanup();
         }
         #endregion Helpers
 
