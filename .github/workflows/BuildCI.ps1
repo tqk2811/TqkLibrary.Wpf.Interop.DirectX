@@ -12,7 +12,10 @@ if ([string]::IsNullOrWhiteSpace($msbuild)) { throw "MSBuild not found via vswhe
 Write-Host "MSBuild: $msbuild"
 
 if (-not (Get-Command dotnet-gitversion -ErrorAction SilentlyContinue)) {
-    dotnet tool install -g GitVersion.Tool | Out-Host
+    # Pin 6.7.0 (same as GitVersion.MsBuild used by the projects). Unpinned installs pull the
+    # latest, and 6.8.0's '/output json' emits text ConvertFrom-Json cannot parse, breaking the
+    # version step. Only install when the tool is not already present on the runner.
+    dotnet tool install -g GitVersion.Tool --version 6.7.0 | Out-Host
     $env:PATH = "$env:PATH;$env:USERPROFILE\.dotnet\tools"
 }
 $gv = dotnet-gitversion /output json | ConvertFrom-Json
