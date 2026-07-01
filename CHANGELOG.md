@@ -7,6 +7,8 @@ A **timeline read bottom-to-top**: each `## [M.m.0]` is the tag that opened a mi
 commits stacked ABOVE it are that line's successive versions `M.m.1`, `M.m.2`, … (patch number =
 commits since the tag), newest on top. Each line shows its version, conventional type, and message.
 
+- 1.1.19 *(fix)* Support 'Any CPU' platform for consuming projects
+- 1.1.18 *(docs)* Add Release.ps1 release helper
 - 1.1.17 *(ci)* Move build into .github/workflows/BuildCI.ps1, drop local build
 - 1.1.16 *(ci)* Show only functional changes in release notes
 - 1.1.15 *(ci)* Add [release]-gated build/publish workflow
