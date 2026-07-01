@@ -4,7 +4,8 @@
 		<BuildDependsOn>TqkLibraryWpfInteropDirectXPlatformCheck;$(BuildDependsOn);</BuildDependsOn>
 	</PropertyGroup>
 	<Target Name="TqkLibraryWpfInteropDirectXPlatformCheck">
-		<Error Condition="'$(Platform.ToLower())' == 'anycpu'" Text="TqkLibrary.Wpf.Interop.DirectX doesn't support 'Any CPU' as a platform." />
+		<!-- AnyCPU is supported: on .NET 5+ the native in runtimes/win-x64|x86/native/ is
+		     auto-resolved by process architecture. arm is not supported: only x86/x64 natives ship. -->
 		<Error Condition="$(Platform.ToLower().Contains('arm'))" Text="TqkLibrary.Wpf.Interop.DirectX doesn't support 'arm' as a platform." />
 	</Target>
 </Project>
